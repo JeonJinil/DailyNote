@@ -55,5 +55,4 @@ public class Post extends BaseTimeEntity {
         title = postResponseDto.getTitle();
         content = postResponseDto.getTitle();
     }
-
 }

@@ -27,14 +27,14 @@ public class FileServiceTest
     @Autowired FileRepository fileRepository;
     @Autowired FileService fileService;
     static FileDto fileDto = FileDto.builder()
-            .fileName("test.txt")
+            .fileName("sss.txt")
             .filePath("C:\\Users\\kcassia")
             .fileType("text/plain")
             .fileAuthor("kcassia")
             .fileSize(10L)
             .postId(1L)
             .userId(2L)
-            .multipartFile(new MockMultipartFile("test", "test.txt", "text/plain", "Hello World".getBytes()))
+            .multipartFile(new MockMultipartFile("sss", "sss.txt", "text/plain", "Hello World".getBytes()))
             .build();
 
     @Test
