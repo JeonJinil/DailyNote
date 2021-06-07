@@ -37,7 +37,7 @@ class PostList extends Component {
     }
 
     registerPost() {
-        this.props.history.push('/postDetail');
+        this.props.history.push('/post/postDetail');
     }
 
     render() {

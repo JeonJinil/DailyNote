@@ -14,7 +14,7 @@ class Login extends Component {
     }
 
     registerAuthenticate = (event) => {
-        event.preventDefault()
+        event.preventDefault();
 
         let user = {
             loginId : this.state.loginId,
@@ -23,11 +23,14 @@ class Login extends Component {
         console.log(`user = ${JSON.stringify(user)}`);
 
         UserService.loginUser(user).then(res => {
-            // this.props.history.push('/');
+            alert(`환영 합니다 ${res.data.name}님`);
+            this.props.history.push('/post/');
         });
     }
 
     findUserAuthenticate = (event) => {
+        event.preventDefault();
+
         console.log(`findUserAuthenticate`);
         // TODO
     }

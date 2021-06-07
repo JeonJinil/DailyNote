@@ -1,13 +1,13 @@
 import React, {Component} from "react";
 import {Grid} from "@material-ui/core";
-import AuthenticateRouterComponent from "../../route/AuthenticateRouterComponent";
+import RouterComponent from "../../route/RouterComponent";
 
 class index extends Component {
     render() {
         return(
             <Grid container sm>
                 <Grid item sm>
-                    <AuthenticateRouterComponent/>
+                    <RouterComponent/>
                 </Grid>
             </Grid>
         );
