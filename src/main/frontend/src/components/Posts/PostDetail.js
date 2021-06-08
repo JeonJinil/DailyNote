@@ -45,13 +45,13 @@ class PostDetail extends Component {
             };
             console.log("post => " + JSON.stringify(post));
             PostService.registerPost(post).then(res => {
-                this.props.history.push('/');
+                this.props.history.push('/post');
             });
         }
     }
 
     cancel() {
-        this.props.history.push('/');
+        this.props.history.push('/post');
     }
 
     render() {

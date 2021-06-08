@@ -1,14 +1,13 @@
 import React, {Component} from "react";
 import {Grid} from "@material-ui/core";
-import PostList from "./PostList";
-// import PostRouterComponent from "../../route/PostRouterComponent"
+import RouterComponent from "../../route/RouterComponent";
 
 class index extends Component {
     render() {
         return(
             <Grid container sm>
                 <Grid item sm>
-                    {PostList}
+                    <RouterComponent/>
                 </Grid>
             </Grid>
         );
@@ -16,4 +15,3 @@ class index extends Component {
 }
 
 export default index;
-

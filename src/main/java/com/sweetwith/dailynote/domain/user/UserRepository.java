@@ -12,6 +12,8 @@ public interface UserRepository extends JpaRepository<User, Long>{
 
     // Read
     Optional<User> findById(Long id);
+    Optional<User> findByLoginId(String loginId);
+    Optional<User> findUserByLoginIdAndLoginPw(String loginId, String LoginPw);
 
     // update
     @Modifying(clearAutomatically = true)

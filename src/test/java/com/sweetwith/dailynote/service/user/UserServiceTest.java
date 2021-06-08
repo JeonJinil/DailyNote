@@ -1,71 +1,84 @@
 package com.sweetwith.dailynote.service.user;
 
-import com.sweetwith.dailynote.domain.user.UserRepository;
+import com.sweetwith.dailynote.domain.user.User;
+import com.sweetwith.dailynote.web.dto.UserJoinRequestDto;
 import com.sweetwith.dailynote.web.dto.UserResponseDto;
 import org.assertj.core.api.Assertions;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.NoSuchElementException;
+
+@RunWith(SpringRunner.class)
 @SpringBootTest
 @Transactional
-class UserServiceTest {
+public class UserServiceTest {
 
     @Autowired
     UserService userService;
 
-    @org.junit.jupiter.api.Test
-    void registerUser() {
-        String loginId = "TEST_LOGIN_ID";
-        String loginPw = "TEST_LOGIN_PW";
+    UserJoinRequestDto userJoinRequestDto1;
+    UserJoinRequestDto userJoinRequestDto2;
 
-        Long userId = userService.registerUser(loginId, loginPw);
-        Assertions.assertThat(userId).isGreaterThan(0);
+    @Before
+    public void setup(){
+        userJoinRequestDto1 = UserJoinRequestDto.builder()
+                .loginId("il6339")
+                .loginPw("123123")
+                .name("JINIL")
+                .email("il633990@gmail.com")
+                .build();
 
-        userService.deleteUser(userId);
+        userJoinRequestDto2 = UserJoinRequestDto.builder()
+                .loginId("il6339")
+                .loginPw("123123")
+                .name("JINIL")
+                .email("il633990@gmail.com")
+                .build();
     }
 
-    @org.junit.jupiter.api.Test
-    void getUserDetail() {
-        String loginId = "TEST_LOGIN_ID";
-        String loginPw = "TEST_LOGIN_PW";
+    @Test
+    @DisplayName("유저 회원 가입")
+    public void setUser(){
+        Long userId = userService.registerUser(userJoinRequestDto1);
 
-        Long userId = userService.registerUser(loginId, loginPw);
         UserResponseDto ret = userService.getUserDetail(userId);
 
-        Assertions.assertThat(ret.getId()).isEqualTo(userId);
-        Assertions.assertThat(ret.getLoginId()).isEqualTo(loginId);
-        Assertions.assertThat(ret.getLoginPw()).isEqualTo(loginPw);
-    }
+        Assertions.assertThat(ret.getLoginId()).isEqualTo(userJoinRequestDto1.getLoginId());
+        Assertions.assertThat(ret.getName()).isEqualTo(userJoinRequestDto1.getName());
+        Assertions.assertThat(ret.getEmail()).isEqualTo(userJoinRequestDto1.getEmail());
 
-    @org.junit.jupiter.api.Test
-    void modifyUser() {
-
-        String loginId = "TEST_LOGIN_ID";
-        String loginPw1 = "TEST_LOGIN_PW1";
-        String loginPw2 = "TEST_LOGIN_PW2";
-
-        Long userId = userService.registerUser(loginId, loginPw1);
-        userService.modifyUser(userId, loginPw2);
-
-        UserResponseDto ret = userService.getUserDetail(userId);
-        Assertions.assertThat(ret.getId()).isEqualTo(userId);
-        Assertions.assertThat(ret.getLoginId()).isEqualTo(loginId);
-        Assertions.assertThat(ret.getLoginPw()).isEqualTo(loginPw2);
 
     }
 
-    @org.junit.jupiter.api.Test
-    void deleteUser() {
-        String loginId = "TEST_LOGIN_ID";
-        String loginPw = "TEST_LOGIN_PW";
+    @Test
+    @DisplayName("중복 유저 아이디 등록시 예러 발생")
+    public void duplicateUserReturnError(){
+        userService.registerUser(userJoinRequestDto1);
 
-        Long userId = userService.registerUser(loginId, loginPw);
-        userService.deleteUser(userId);
-
-//        UserResponseDto ret = userService.getUserDetail(userId);
-
+        Assertions.assertThatThrownBy(() -> userService.registerUser(userJoinRequestDto2))
+                .as("정보를 다시 확인해주세요")
+                .isInstanceOf(RuntimeException.class);
     }
+
+    @Test
+    @DisplayName("로그인")
+    public void login() {
+        userService.registerUser(userJoinRequestDto1);
+
+        userService.loginUser(userJoinRequestDto1.getLoginId(), userJoinRequestDto1.getLoginPw());
+        Assertions.assertThatThrownBy(() ->
+                userService.loginUser(userJoinRequestDto1.getLoginId(), "Wrong password"))
+                .as("ID/PW 확인 해주세요")
+                .isInstanceOf(NoSuchElementException.class);
+    }
+
+
+
 }
