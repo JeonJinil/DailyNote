@@ -14,7 +14,7 @@ class Header extends Component {
 
     gotoHome() {
         console.log("gotoHOM<E");
-        this.props.history.push('/');
+        window.location.href='/';
     }
 
     render (){
@@ -27,7 +27,7 @@ class Header extends Component {
                     <Typography variant="headline" color="inherit">
                         Daily Note
                     </Typography>
-                    <Button onClick={this.gotoHome}>LOGIN</Button>
+                    <Button color="inherit" onClick={this.gotoHome}>Login</Button>
                 </Toolbar>
             </AppBar>
         )

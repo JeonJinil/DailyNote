@@ -25,7 +25,10 @@ class Login extends Component {
         UserService.loginUser(user).then(res => {
             alert(`환영 합니다 ${res.data.name}님`);
             this.props.history.push('/post/');
-        });
+        }).catch(err =>{
+            alert(`ID/PW를 확인하세요!`);
+            window.location.href='/';
+        })
     }
 
     findUserAuthenticate = (event) => {
